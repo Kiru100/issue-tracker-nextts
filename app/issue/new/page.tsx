@@ -11,6 +11,7 @@ import { validation_schema } from '@/app/validation_schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
+import TailwindSpinner from '@/app/components/TailwindSpinner';
 
 
 type Issue = z.infer<typeof validation_schema>
@@ -22,12 +23,15 @@ const NewIssuePage = () => {
 
     const router = useRouter();
     const [error, setError] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<Issue> = async (data) =>{
         try {
+            setLoading(true);
             await axios.post("/api/issue", data);
             router.push("/issue");
         } catch (error) {
+            setLoading(false);
             console.log(error);
             setError("An unexpected error occured.")
         }   
@@ -56,7 +60,7 @@ const NewIssuePage = () => {
                     }
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
-                <Button>Submit New Issue</Button>
+                <Button disabled={isLoading}>Submit New Issue {isLoading && <TailwindSpinner/>}  </Button>
             </form>
         </div>
     )
