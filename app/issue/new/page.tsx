@@ -1,17 +1,17 @@
 "use client";
 
-import { Button, Callout, Text, TextArea, TextField } from '@radix-ui/themes';
-import React, { useState } from 'react'
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
-import { useForm, Controller, SubmitHandler  } from 'react-hook-form';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { validation_schema } from '@/app/validation_schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import TailwindSpinner from '@/app/components/TailwindSpinner';
+import { validation_schema } from '@/app/validation_schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Callout, TextField } from '@radix-ui/themes';
+import axios from 'axios';
+import "easymde/dist/easymde.min.css";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import SimpleMDE from "react-simplemde-editor";
+import { z } from 'zod';
 
 type Issue = z.infer<typeof validation_schema>
 
