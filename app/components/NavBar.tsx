@@ -34,7 +34,6 @@ const NavBar = () => {
 						</Link>
 					)
 				}
-
 			</ul>	
 		</nav>
 	)
