@@ -1,33 +1,41 @@
+"use client";
+
 import Link from 'next/link';
-import React from 'react'
+import { usePathname } from 'next/navigation';
+import React from 'react';
 import { ImBug } from 'react-icons/im';
+import classNames from 'classnames';
 
 const NavBar = () => {
+	const current_path = usePathname();
 
-  const links = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/issue", label: "Issue" }
-  ]
+	const links = [
+		{ href: "/", label: "Dashboard" },
+		{ href: "/issue", label: "Issue" }
+	]
 
-  return (
-    <nav className='flex px-6 space-x-6 border-b mb-5 h-14 items-center'>
-        <Link href="/"><ImBug /></Link>
-        <ul className='space-x-6'>
-			{
-				links.map(link => 
-					<Link 
-						href={link.href} 
-						className='text-zinc-500 hover:text-zinc-800'
-						key={`${link.href}_${link.label}`}
-					>
+	return (
+		<nav className='flex px-6 space-x-6 border-b mb-5 h-14 items-center'>
+			<Link href="/"><ImBug /></Link>
+			<ul className='space-x-6'>
+				{
+					links.map(link => 
+						<Link 
+							href={link.href} 
+							className={classNames({
+								"text-zinc-900": current_path === link.href,
+								"text-zinc-500": current_path !== link.href,
+								"hover:text-zinc-800 transition-colors": true
+							})}
+							key={`${link.href}_${link.label}`}
+						>
 							{link.label}
-					</Link>
-				)
-			}
-        </ul>
-      
-    </nav>
-  )
+						</Link>
+					)
+				}
+			</ul>	
+		</nav>
+	)
 }
 
 export default NavBar;
