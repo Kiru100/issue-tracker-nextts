@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { validation_schema } from '@/app/validation_schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 
 type Issue = z.infer<typeof validation_schema>
@@ -18,6 +19,7 @@ const NewIssuePage = () => {
     const { register, control, handleSubmit, formState: {errors} } = useForm<Issue>({
         resolver: zodResolver(validation_schema)
     });
+
     const router = useRouter();
     const [error, setError] = useState("");
 
@@ -29,7 +31,6 @@ const NewIssuePage = () => {
             console.log(error);
             setError("An unexpected error occured.")
         }   
-
     }
 
     return (
@@ -46,13 +47,15 @@ const NewIssuePage = () => {
                 <TextField.Root className='mb-2'>
                     <TextField.Input placeholder="Title" {...register("title")}/>
                 </TextField.Root>
-                { errors.title && <Text color='red' as='div'>{errors.title.message}</Text> }
+                <ErrorMessage>{errors.title?.message}</ErrorMessage>
                 <Controller 
                     name="description"
                     control={control}
-                    render={({field}) => <SimpleMDE placeholder="Type to write description..." {...field} />}
+                    render={
+                        ({field}) => <SimpleMDE placeholder="Type to write description..." {...field} />
+                    }
                 />
-                { errors.description && <Text color='red' as='div'>{errors.description.message}</Text> }
+                <ErrorMessage>{errors.description?.message}</ErrorMessage>
                 <Button>Submit New Issue</Button>
             </form>
         </div>
