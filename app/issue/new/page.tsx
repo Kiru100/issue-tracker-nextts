@@ -13,7 +13,6 @@ import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import TailwindSpinner from '@/app/components/TailwindSpinner';
 
-
 type Issue = z.infer<typeof validation_schema>
 
 const NewIssuePage = () => {
@@ -32,8 +31,7 @@ const NewIssuePage = () => {
             router.push("/issue");
         } catch (error) {
             setLoading(false);
-            console.log(error);
-            setError("An unexpected error occured.")
+            setError("An unexpected error occured.");
         }   
     }
 

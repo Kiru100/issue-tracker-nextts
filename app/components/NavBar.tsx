@@ -23,12 +23,12 @@ const NavBar = () => {
 					links.map(link => 
 						<Link 
 							href={link.href} 
+							key={`${link.href}_${link.label}`}
 							className={classNames({
 								"text-zinc-900": current_path === link.href,
 								"text-zinc-500": current_path !== link.href,
 								"hover:text-zinc-800 transition-colors": true
 							})}
-							key={`${link.href}_${link.label}`}
 						>
 							{link.label}
 						</Link>
