@@ -1,11 +1,9 @@
 "use client";
 
+import classNames from 'classnames';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 import { ImBug } from 'react-icons/im';
-import classNames from 'classnames';
-import { Button } from '@radix-ui/themes';
 
 const NavBar = () => {
 	const current_path = usePathname();
