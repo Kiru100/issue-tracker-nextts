@@ -2,6 +2,7 @@ import prisma from '@/prisma/client';
 import { Button, Table } from '@radix-ui/themes';
 import Link from 'next/link';
 import React, { useEffect } from 'react'
+import StatusBadge from '../components/StatusBadge';
 
 const IssuePage = async () => {
     const issues = await prisma.issue.findMany();
@@ -26,7 +27,9 @@ const IssuePage = async () => {
                         issues.map(issue => (
                             <Table.Row key={issue.id}>
                                 <Table.Cell>{issue.title}</Table.Cell>
-                                <Table.Cell className='hidden md:table-cell'>{issue.status}</Table.Cell>
+                                <Table.Cell className='hidden md:table-cell'>
+                                    <StatusBadge status={issue.status}/>
+                                </Table.Cell>
                                 <Table.Cell className='hidden md:table-cell'>{issue.created_at.toDateString()}</Table.Cell>
 
                             </Table.Row>
