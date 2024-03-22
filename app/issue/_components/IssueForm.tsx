@@ -32,7 +32,13 @@ const IssueForm = async ({issue}: {issue?: Issue}) => {
     const onSubmit: SubmitHandler<IssueFormData> = async (data) =>{
         try {
             setLoading(true);
-            await axios.post("/api/issue", data);
+            
+            if(issue){
+                await axios.post(`/api/issue/${issue?.id}`, data);
+            }else{
+                await axios.post("/api/issue", data);
+            }
+
             router.push("/issue");
         } catch (error) {
             setLoading(false);
@@ -64,7 +70,10 @@ const IssueForm = async ({issue}: {issue?: Issue}) => {
                     }
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
-                <Button disabled={isLoading}>Submit New Issue {isLoading && <TailwindSpinner/>}  </Button>
+                <Button disabled={isLoading}>
+                    {issue ? "Edit Issue" : "Submit New Issue"} 
+                
+                {isLoading && <TailwindSpinner/>}  </Button>
             </form>
         </div>
     )
