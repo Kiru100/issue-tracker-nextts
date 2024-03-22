@@ -32,5 +32,4 @@ export async function POST(request: NextRequest, {params}: Props){
     )
 
     return NextResponse.json(updatedIssue, {status: 200});
-
 }
