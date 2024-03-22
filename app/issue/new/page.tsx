@@ -1,13 +1,12 @@
 "use client";
 
-import ErrorMessage from '@/app/components/ErrorMessage';
-import TailwindSpinner from '@/app/components/TailwindSpinner';
+import "easymde/dist/easymde.min.css";
+import axios from 'axios';
+import dynamic from 'next/dynamic';
+import { ErrorMessage, TailwindSpinner } from "@/app/components";
 import { validation_schema } from '@/app/validation_schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Callout, TextField } from '@radix-ui/themes';
-import axios from 'axios';
-import "easymde/dist/easymde.min.css";
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';

@@ -1,5 +1,5 @@
-import Skeleton from '@/app/components/Skeleton';
 import { Box, Card, Flex, Heading } from '@radix-ui/themes';
+import { Skeleton } from '@/app/components';
 
 const IssueDetailsLoadingPage = () => {
 	return (
