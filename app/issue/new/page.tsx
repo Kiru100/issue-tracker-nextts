@@ -6,13 +6,17 @@ import { validation_schema } from '@/app/validation_schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Callout, TextField } from '@radix-ui/themes';
 import axios from 'axios';
-import delay from 'delay';
 import "easymde/dist/easymde.min.css";
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import SimpleMDE from "react-simplemde-editor";
 import { z } from 'zod';
+
+const SimpleMDE = dynamic(
+    () => import("react-simplemde-editor"),
+    {ssr: false}
+)
 
 type Issue = z.infer<typeof validation_schema>
 
@@ -35,8 +39,6 @@ const NewIssuePage = async () => {
             setError("An unexpected error occured.");
         }   
     }
-
-    await delay(2000)
 
     return (
         <div className='max-w-xl space-y-3'>
