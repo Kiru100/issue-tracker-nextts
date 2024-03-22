@@ -10,4 +10,4 @@ const NewPageLoading = () => {
 	)
 }
 
-export default NewPageLoading
+export default NewPageLoading;
