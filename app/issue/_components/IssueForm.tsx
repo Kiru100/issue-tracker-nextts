@@ -35,7 +35,7 @@ const IssueForm = async ({issue}: {issue?: Issue}) => {
                 await axios.post("/api/issue", data);
             }
 
-            router.push("/issue");
+            router.push("/issue/list");
             router.refresh();
         } catch (error) {
             setLoading(false);
