@@ -33,3 +33,14 @@ export async function POST(request: NextRequest, {params}: Props){
 
     return NextResponse.json(updatedIssue, {status: 200});
 }
+
+export async function DELETE(request: NextRequest, {params}: {params: {id: string}}){
+    const issue = await prisma.issue.findUnique({where:{ id: parseInt(params.id)}});
+
+    if(!issue)
+        return NextResponse.json("Issue cannot be found", {status: 404});
+
+    await prisma.issue.delete({where: {id: parseInt(params.id)}});
+
+    return NextResponse.json({});
+}

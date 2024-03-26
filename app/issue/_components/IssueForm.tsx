@@ -1,22 +1,17 @@
 "use client";
 
-import "easymde/dist/easymde.min.css";
-import axios from 'axios';
-import dynamic from 'next/dynamic';
 import { ErrorMessage, TailwindSpinner } from "@/app/components";
 import { validation_schema } from '@/app/validation_schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Issue } from "@prisma/client";
 import { Button, Callout, TextField } from '@radix-ui/themes';
+import axios from 'axios';
+import "easymde/dist/easymde.min.css";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import SimpleMDE from "react-simplemde-editor";
 import { z } from 'zod';
-import { Issue } from "@prisma/client";
-
-const SimpleMDE = dynamic(
-    () => import("react-simplemde-editor"),
-    {ssr: false}
-)
 
 type IssueFormData = z.infer<typeof validation_schema>;
 
@@ -30,6 +25,7 @@ const IssueForm = async ({issue}: {issue?: Issue}) => {
     });
 
     const onSubmit: SubmitHandler<IssueFormData> = async (data) =>{
+        
         try {
             setLoading(true);
             

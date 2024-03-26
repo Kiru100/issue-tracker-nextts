@@ -16,5 +16,5 @@ export async function POST(request: NextRequest){
         }
     })
 
-    return NextResponse.json(new_issue, {status: 201})
+    return NextResponse.json(new_issue, {status: 201});
 }
