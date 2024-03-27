@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { ImBug } from 'react-icons/im';
-import { Box } from '@radix-ui/themes';
+import { Box, Container, Flex } from '@radix-ui/themes';
 
 const NavBar = () => {
 	const current_path = usePathname();
@@ -17,31 +17,37 @@ const NavBar = () => {
 	];
 
 	return (
-		<nav className='flex px-6 space-x-6 border-b mb-5 h-14 items-center'>
-			<Link href="/"><ImBug /></Link>
-			<ul className='flex space-x-6'>
-				{
-					links.map(link => 
-						<li key={`${link.href}_${link.label}`}>
-							<Link 
-								href={link.href} 							
-								className={classNames({
-									"text-zinc-900": current_path === link.href,
-									"text-zinc-500": current_path !== link.href,
-									"hover:text-zinc-800 transition-colors": true
-								})}
-							>
-								{link.label}
-							</Link>
-						</li>
-					)
-				}
-			</ul>	
-			<Box>
-				{(status === "authenticated") && <Link href={`/api/auth/signout`}>Log Out</Link>}
-				{(status === "unauthenticated") && <Link href={`/api/auth/signin`}>Log In</Link>}
-			</Box>
-		</nav>
+			<nav className='border-b mb-5 py-3'>
+				<Container>	
+					<Flex justify="between">
+						<Flex align="center" gap="3">
+						<Link href="/"><ImBug /></Link>
+						<ul className='flex space-x-6'>
+							{
+								links.map(link => 
+									<li key={`${link.href}_${link.label}`}>
+										<Link 
+											href={link.href} 							
+											className={classNames({
+												"text-zinc-900": current_path === link.href,
+												"text-zinc-500": current_path !== link.href,
+												"hover:text-zinc-800 transition-colors": true
+											})}
+										>
+											{link.label}
+										</Link>
+									</li>
+								)
+							}
+						</ul>	
+						</Flex>
+						<Box>
+							{(status === "authenticated") && <Link href={`/api/auth/signout`}>Log Out</Link>}
+							{(status === "unauthenticated") && <Link href={`/api/auth/signin`}>Log In</Link>}
+						</Box>
+					</Flex>
+				</Container>
+			</nav>
 	)
 }
 
