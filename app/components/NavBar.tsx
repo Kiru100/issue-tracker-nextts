@@ -8,70 +8,86 @@ import { ImBug } from 'react-icons/im';
 import { Avatar, Box, Button, Container, DropdownMenu, Flex, Text } from '@radix-ui/themes';
 
 const NavBar = () => {
-	const current_path = usePathname();
-	const {status, data: session} = useSession();
+	return (
+		<nav className='border-b mb-5 py-3'>
+			<Container>	
+				<Flex justify="between">
+					<Flex align="center" gap="3">
+						<Link href="/"><ImBug /></Link>
+						<LinkList/> 
+					</Flex>
+					<AuthBar/> 
+				</Flex>
+			</Container>
+		</nav>
+	)
+}
 
+
+const LinkList = ()=>{
+	const current_path = usePathname();
+	
 	const links = [
 		{ href: "/", label: "Dashboard" },
 		{ href: "/issue/list", label: "Issue" }
 	];
 
 	return (
-			<nav className='border-b mb-5 py-3'>
-				<Container>	
-					<Flex justify="between">
-						<Flex align="center" gap="3">
-						<Link href="/"><ImBug /></Link>
-						<ul className='flex space-x-6'>
-							{
-								links.map(link => 
-									<li key={`${link.href}_${link.label}`}>
-										<Link 
-											href={link.href} 							
-											className={classNames({
-												"text-zinc-900": current_path === link.href,
-												"text-zinc-500": current_path !== link.href,
-												"hover:text-zinc-800 transition-colors": true
-											})}
-										>
-											{link.label}
-										</Link>
-									</li>
-								)
-							}
-						</ul>	
-						</Flex>
-						<Box>
-							{(status === "authenticated") && (
-								<DropdownMenu.Root>
-									<DropdownMenu.Trigger>
-										<Avatar 
-											src={session?.user?.image!} 
-											fallback size="2" 
-											radius='full' 
-											className='cursor-pointer'
-											referrerPolicy='no-referrer'
-										/>
-									</DropdownMenu.Trigger>
-									<DropdownMenu.Content>
-										<DropdownMenu.Label>
-											<Text>
-												{session?.user?.email}
-											</Text>
-										</DropdownMenu.Label>
-										<DropdownMenu.Item>
-											{(status === "authenticated") && <Link href={`/api/auth/signout`}>Log Out</Link>}
-										</DropdownMenu.Item>
-									</DropdownMenu.Content>
-								</DropdownMenu.Root>
-							)}
-							
-							{(status === "unauthenticated") && <Link href={`/api/auth/signin`}>Log In</Link>}
-						</Box>
-					</Flex>
-				</Container>
-			</nav>
+		<ul className='flex space-x-6'>
+			{
+				links.map(link => 
+					<li key={`${link.href}_${link.label}`}>
+						<Link 
+							href={link.href} 							
+							className={classNames({
+								"nav-link": true,
+								"!text-zinc-900": current_path === link.href
+							})}
+						>
+							{link.label}
+						</Link>
+					</li>
+				)
+			}
+		</ul>	
 	)
 }
+
+const AuthBar = () =>{
+	const {status, data: session} = useSession();
+
+	if (status === "loading") return null;
+
+	if(status === "unauthenticated") return <Link className="nav-link" href="/api/auth/signin">Login</Link>
+
+	return (
+		<Box>
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger>
+					<Avatar 
+						src={session?.user?.image!} 
+						fallback size="2" 
+						radius='full' 
+						className='cursor-pointer'
+						referrerPolicy='no-referrer'
+					/>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content>
+					<DropdownMenu.Label>
+						<Text>
+							{session?.user?.email}
+						</Text>
+					</DropdownMenu.Label>
+					<DropdownMenu.Item>
+						{						
+							(status === "authenticated") && <Link href={`/api/auth/signout`}>Log Out</Link>
+						}
+					</DropdownMenu.Item>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
+		</Box>
+	)
+}
+
 
 export default NavBar;
