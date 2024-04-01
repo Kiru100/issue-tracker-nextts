@@ -8,14 +8,14 @@ import React, { useEffect, useState } from 'react'
 const AssigneeSelect = () => {
   const [users, setUsers] = useState<User[]>([])
 
-  useEffect(()=>{
-    const fetchUsers = async () =>{
-      const {data}  = await axios.get<User[]>("/api/users");
-      setUsers(data)
-    }
+	useEffect(()=>{
+		const fetchUsers = async () =>{
+			const {data}  = await axios.get<User[]>("/api/users");
+			setUsers(data)
+		}
 
-    fetchUsers()
-  })
+		fetchUsers();
+	}, [])
 
   return (
     <Select.Root  defaultValue="1" >
