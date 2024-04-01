@@ -1,6 +1,7 @@
 import authOptions from "@/app/auth/authOptions";
-import { validation_schema } from "@/app/validation_schema";
+import { patch_issue_schema } from "@/app/validation_schema";
 import prisma from "@/prisma/client";
+import { error } from "console";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,19 +9,30 @@ interface Props{
     params:  {id: string}
 }
 
-export async function POST(request: NextRequest, {params}: Props){
+export async function PATCH(request: NextRequest, {params}: Props){
     const session = await getServerSession(authOptions);
     if(!session) return NextResponse.json({}, {status: 401});
     const body = await request.json();
-    const validation = validation_schema.safeParse(body);
+    const {assignedToUserId, title, description} = body;
+    const validation = patch_issue_schema.safeParse(body);
 
     if(!validation.success)
         return NextResponse.json(validation.error.format(), {status: 400})
+    
+    if(assignedToUserId){
+        const user = await prisma.user.findUnique({where: { id: assignedToUserId }})
 
-    const issue = await prisma.issue.findUnique({where: {id: parseInt(params.id)}})
+        if(!user)
+            return NextResponse.json({error: "Invalid User"}, {status: 400})
+    }
+
+    const issue = await prisma.issue.findUnique({where: {id: parseInt(params.id)}});
 
     if(!issue)
-        return NextResponse.json({error: "Invalid Issue"}, {status: 404})
+        return NextResponse.json(
+            {error: "Invalid Issue"}, 
+            {status: 404}
+        )
 
     const updatedIssue = await prisma.issue.update(
         {
@@ -28,7 +40,9 @@ export async function POST(request: NextRequest, {params}: Props){
                 id: issue.id 
             }, 
             data: {
-                title: body.title, description: body.description
+                title,
+                description,
+                assignedToUserId
             }
         }
     )
