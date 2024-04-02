@@ -30,4 +30,4 @@ const IssueChart = ({open, inProgress, close}: Props) => {
     )
 }
 
-export default IssueChart
+export default IssueChart;

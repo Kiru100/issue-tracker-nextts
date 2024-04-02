@@ -44,4 +44,4 @@ const LatestIssues = async () => {
     )
 }
 
-export default LatestIssues
+export default LatestIssues;
