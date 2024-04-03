@@ -16,7 +16,7 @@ const AssigneeSelect = ({issue}: {issue: Issue}) => {
 
 	const onSelectChange = (userId: string)=> {
 		axios
-			.patch("/xapi/issue/"+ issue.id, {assignedToUserId: userId || null})
+			.patch("/api/issue/"+ issue.id, {assignedToUserId: userId || null})
 			.catch(() => {
 				toast.error("Changes could not be saved.")
 			})						
